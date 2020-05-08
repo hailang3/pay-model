@@ -59,7 +59,7 @@ public class EncryptUtil {
 	 */
 	public static String encodeToBase64(String str) {
 		try {
-			return new String(Base64.encodeBase64(str.getBytes(CHARSET_NAME)),CHARSET_NAME);
+			return new String(org.apache.commons.codec.binary.Base64.encodeBase64(str.getBytes(CHARSET_NAME)),CHARSET_NAME);
 		} catch (UnsupportedEncodingException e) {
 			logger.error("字符串(" + str + ")base64加密异常：" + e.getMessage());
 		}
@@ -76,7 +76,7 @@ public class EncryptUtil {
 	 */
 	public static String decodeToBase64(String str) throws IOException {
 		try {
-			return new String(Base64.decodeBase64(str.getBytes(CHARSET_NAME)),
+			return new String(org.apache.commons.codec.binary.Base64.decodeBase64(str.getBytes(CHARSET_NAME)),
 					CHARSET_NAME);
 		} catch (UnsupportedEncodingException e) {
 			logger.error("字符串(" + str + ")base64加密异常：" + e.getMessage());

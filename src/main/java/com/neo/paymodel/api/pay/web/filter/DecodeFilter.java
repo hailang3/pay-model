@@ -1,12 +1,10 @@
 package com.neo.paymodel.api.pay.web.filter;
 
-import com.dsgame.common.other.entity.ErinHttpRequest;
-import com.dsgame.common.util.AESUtils;
-import com.dsgame.common.util.Base64;
-import com.dsgame.common.util.HttpUtil;
-import com.dsgame.common.util.MD5Util;
-import com.dsgame.pay.api.service.ConfigService;
-import com.dsgame.utils.SpringUtils;
+import com.neo.paymodel.api.pay.util.HttpUtil;
+import com.neo.paymodel.common.util.AESUtils;
+import com.neo.paymodel.common.util.Base64;
+import com.neo.paymodel.common.util.MD5Util;
+import com.neo.paymodel.common.util.SpringUtils;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -27,29 +25,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+
 public class DecodeFilter implements Filter {
 	static final Logger logger = LoggerFactory.getLogger(DecodeFilter.class);
 
 	private Map<String, Object> requestRedisTask = null;
-	private ConfigService configService;
 	public static boolean isOpenDecode = true;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		
-		configService = SpringUtils.getBean(ConfigService.class);
 		refresh();
 		
 	}
 	
 	
 	public void refresh(){
-		requestRedisTask = SpringUtils.getBean(ConfigService.class).getGameTask(10910000);
-		if(requestRedisTask!=null && Integer.parseInt(requestRedisTask.get("CONDITION_2").toString()) <= 0){
-			isOpenDecode =  false;
-		}else{
-			isOpenDecode =  true;
-		}
 	}
 
 	@Override
@@ -137,8 +127,7 @@ public class DecodeFilter implements Filter {
 			return;
 		}
 		logger.info("extendParams:" + extendParams.toString());
-		ErinHttpRequest request = new ErinHttpRequest(requestHttp, extendParams);
-		chain.doFilter(request, response);
+		chain.doFilter(request0, response);
 	}
 
 	public static Map<String, Object> urlQueryToMap(String urlparam) {
@@ -206,28 +195,6 @@ public class DecodeFilter implements Filter {
 	 * @return
 	 */
 	public boolean repeatRequest(HttpServletRequest request) {
-		if (requestRedisTask != null && Integer.parseInt(requestRedisTask.get("CONDITION_2").toString()) > 0) {
-			if (!allowFrequentlyRequest(request)) {
-				try {
-					String cacheKey = request.getParameter("sign");
-					if (requestRedisTask != null && Integer.parseInt(requestRedisTask.get("CONDITION_2").toString()) > 0) {
-						if (StringUtils.isNotEmpty(cacheKey)) {
-							Object object = configService.get(cacheKey);
-							if (object == null) {
-								logger.debug("cacheObject:[{}:{}]", cacheKey, HttpUtil.buildOriginalURL(request));
-								// 设置redis缓存超时2分钟
-								configService.setHasOvertime(cacheKey, HttpUtil.buildOriginalURL(request), 2);
-							} else {
-								logger.error("cacheObject exist:[{}:{}]", cacheKey, HttpUtil.buildOriginalURL(request));
-								return true;
-							}
-						}
-					}
-				} catch (Exception e) {
-					logger.error("lobbyConfService error:[{}]", e.getMessage());
-				}
-			}
-		}
 		return false;
 	}
 	

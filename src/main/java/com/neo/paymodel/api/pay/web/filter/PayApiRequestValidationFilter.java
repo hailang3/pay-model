@@ -1,6 +1,6 @@
 package com.neo.paymodel.api.pay.web.filter;
 
-import com.dsgame.pay.api.util.HttpUtil;
+import com.neo.paymodel.api.pay.util.HttpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.OncePerRequestFilter;

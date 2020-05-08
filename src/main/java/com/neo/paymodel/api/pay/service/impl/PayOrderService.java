@@ -22,19 +22,6 @@ import java.util.concurrent.*;
 public class PayOrderService implements IPayOrderService, InitializingBean {
 
 	static final Logger logger = LoggerFactory.getLogger(PayOrderService.class);
-	
-	@Autowired
-	private CoinDataDao coinDataDao;
-	@Autowired
-	private CurrencyGamecoinLogDao currencyGamecoinLogDao;
-	@Autowired
-	private UserPaymentDao userPaymentDao;
-	@Autowired
-	private UserMasterDao userMasterDao;
-	@Autowired
-	private LobbyBulletinDao lobbyBulletinDao;
-	@Autowired
-	private IExchangeTurnoverDao exchangeTurnoverDAO;
 	@Autowired
 	private IPayDao payDao;
 	
@@ -88,18 +75,18 @@ public class PayOrderService implements IPayOrderService, InitializingBean {
 	public PayOrder createOrder(int userId, String userName, long orderAmount, int rebateRate,
 			String channelId, String orderMachine, int orderGameId,
 			int payViewId, int payMethodId, int payTypeId, int payMerchantId,
-			int payChannelId, int whichOne, String ipAddr, int giftCoin, int goodsId) {
-		return createOrder(genOrderNo(), userId, userName, orderAmount, 0, rebateRate, channelId, orderMachine, orderGameId, payViewId, payMethodId, payTypeId, payMerchantId, payChannelId, whichOne, ipAddr, giftCoin, goodsId);
+			int payChannelId, String ipAddr, int giftCoin, int goodsId) {
+		return createOrder(genOrderNo(), userId, userName, orderAmount, 0, rebateRate, channelId, orderMachine, orderGameId, payViewId, payMethodId, payTypeId, payMerchantId, payChannelId,  ipAddr, giftCoin, goodsId);
 	}
 	
 	@Override
 	public PayOrder createOrder(String orderNo, int userId, String userName,
 			long orderAmount, int rebateCoin, int rebateRate, String channelId,
 			String orderMachine, int orderGameId, int payViewId, int payMethodId,
-			int payTypeId, int payMerchantId, int payChannelId, int whichOne,
+			int payTypeId, int payMerchantId, int payChannelId,
 			String ipAddr, int giftCoin, int goodsId) {
 		
-		return payDao.createOrder(orderNo, userId, userName, orderAmount, rebateCoin, rebateRate, channelId, orderMachine, orderGameId, payViewId, payMethodId, payTypeId, payMerchantId, payChannelId, whichOne, ipAddr, giftCoin, goodsId);
+		return payDao.createOrder(orderNo, userId, userName, orderAmount, rebateCoin, rebateRate, channelId, orderMachine, orderGameId, payViewId, payMethodId, payTypeId, payMerchantId, payChannelId,ipAddr, giftCoin, goodsId);
 	}
 
 	private String genOrderNo(){
@@ -208,76 +195,10 @@ public class PayOrderService implements IPayOrderService, InitializingBean {
 			logger.warn("订单[{}]已处理！", orderNo);
 			return;
 		}
-		
-		
 		// 2.加银子，记操作日志
-		//2. 添加玩家积分
-		if(addCoin>0){
-			coinDataDao.addGameCoin(userId, addCoin);
-		}else{
-			result = coinDataDao.subGameCoin(userId, Math.abs(addCoin));
-			if(!result){
-				//抛异常，回滚
-				throw new RuntimeException("coin 数量不够");
-			}
-		}
 		logger.debug("充值订单[{}]处理,玩家[{}]增加金币数量[{}]",orderNo, userId, addCoin);
-		
-		long gameCoin = coinDataDao.getGameCoin(userId);
-		
 		//3. 插入玩家积分充值记录
-		CurrencyGamecoinLog currencyGamecoinLog = new CurrencyGamecoinLog();
-		currencyGamecoinLog.setUserId(userId);
-		currencyGamecoinLog.setSiteId(0);
-		currencyGamecoinLog.setGameId(0);
-		currencyGamecoinLog.setServerId(0);
-		currencyGamecoinLog.setSourceId(CurrencyGamecoinLog.source_id_202);
-		currencyGamecoinLog.setOriginalNumber(gameCoin);
-		currencyGamecoinLog.setOpNumber(new Long(CurrencyGamecoinLog.TYPE_ADD * addCoin));
-		currencyGamecoinLog.setOperator("SYSTEM");
-		currencyGamecoinLog.setRemark("充值" + (payOrder.getRemark()!=null ? payOrder.getRemark() : ""));
-		currencyGamecoinLogDao.addCurrencyGamecoinLog(currencyGamecoinLog);
-		
 		//4. 通知游戏服务端
-		UserPayment userPayment = new UserPayment();
-		userPayment.setUserId(userId);
-		userPayment.setPayAmount(payActual);
-		userPayment.setPayCoin((long)addCoin);
-		userPaymentDao.updateUserPayment(userPayment);
-		
-		//int opt_num =new BigDecimal(realAmount).multiply(new BigDecimal(1)).intValue();
-		long opt_num = addCoin;
-		if(opt_num>=300000){
-			UserMaster userMaster =userMasterDao.getUserMaster(userId);
-			
-			LobbyUsercoinBulletin bulletin =new LobbyUsercoinBulletin();
-			bulletin.setBulletinType(2);
-			bulletin.setNickName(userMaster.getAccountNickname());
-			bulletin.setOptNum(opt_num);
-			bulletin.setUserId(userId);
-			bulletin.setUserName(userMaster.getAccountName());
-			lobbyBulletinDao.addUserCoinBulletinRecord(bulletin);
-		}
-		
-		
-
-		
-		
-		//添加 充值流水
-//		exchangeTurnoverDAO.execExchangeUserTurnover(userId, ExchangeTurnover.PAY_TURNOVER, Integer.parseInt(orderAmount), 0, "");
-		
-		// 充值流水限制 原本从多少送多少，现在修改为总共赠送金币多少（addCoin），则兑换时限制兑换的流水为多少
-//		exchangeTurnoverDAO.updateExchangeUserTurnover(userId, ExchangeUserTurnover.TurnoverType.PAY, payActual, 0);
-		exchangeTurnoverDAO.updateExchangeUserTurnover(userId, ExchangeUserTurnover.TurnoverType.PAY, addCoin, 0);
-		logger.debug("充值订单[{}]处理完成", orderNo);
-		
-		
-		// 添加首充记录
-		int isFirstPay = payDao.getIsFirstPay(userId);
-		if(isFirstPay == 0) {
-			payDao.addGiftCoinByFirstPay(userId);
-		}
-
 
 	}
 

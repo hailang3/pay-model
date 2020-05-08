@@ -27,7 +27,7 @@ public class RequestUtil
   {
     StringBuffer originalURL = request.getRequestURL();
     String url = originalURL.toString();
-    Map<String, Object> parameters = request.getParameterMap();
+    Map<String, String[]> parameters = request.getParameterMap();
 
     if ((parameters != null) && (parameters.size() > 0)) {
       originalURL.append("?");
@@ -112,12 +112,12 @@ public class RequestUtil
 
   public static Map<String, String> getParameterMap(HttpServletRequest request)
   {
-    Map<String, Object> properties = request.getParameterMap();
+    Map<String, String[]> properties = request.getParameterMap();
 
     Map<String, String> returnMap = new HashMap<String, String>();
 
     String value = "";
-    for (Entry<String, Object> entry : properties.entrySet()) {
+    for (Entry<String,  String[]> entry : properties.entrySet()) {
       String name = (String)entry.getKey();
       String[] values = (String[])entry.getValue();
       if (values == null) {

@@ -2,7 +2,6 @@ package com.neo.paymodel.api.pay.web.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.neo.paymodel.api.pay.channel.PayChannelApiManager;
-import com.neo.paymodel.api.pay.entity.DiscountInfo;
 import com.neo.paymodel.api.pay.entity.PayMethodInstance;
 import com.neo.paymodel.api.pay.entity.PayOrder;
 import com.neo.paymodel.api.pay.entity.PayView;
@@ -13,8 +12,6 @@ import com.neo.paymodel.api.pay.util.RequestParamsUtil;
 import com.neo.paymodel.api.pay.util.TypeException;
 import com.neo.paymodel.api.pay.web.model.RetModel;
 import com.neo.paymodel.api.pay.web.vo.*;
-import com.neo.paymodel.common.config_plat_db.entity.LobbyVersionList;
-import com.neo.paymodel.common.config_plat_db.service.LobbyVersionService;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +38,6 @@ public class PayController {
 	IPayOrderService payOrderService;
 	@Autowired
 	PayChannelApiManager payChannelApiManager;
-
-	@Autowired
-	private CoinService coinService;
-
-	@Autowired
-	private LobbyVersionService lobbyVersionService;
-
-	@Autowired
-	private DiscountService discountService;
-
 	// 拉取充值配置
 	@ResponseBody
 	@RequestMapping(value = "/config")
@@ -59,13 +46,9 @@ public class PayController {
 		String channelId = payConfigReq.getChannelId().trim();
 		// int payAmountTotal=payConfigReq.getVipGrade();
 		// 验证参数
-		// 获取渠道配置
-		LobbyVersionList entity = lobbyVersionService.getLobbyVersionList(channelId);
-		// 获取团队id
-		int whichOne = entity.getAll_promotion_config();
+
 		// 获取充值界面需要的配置
-		List<PayTypeVo> payTypeVos = payService.getPayTypeVoList(whichOne, payConfigReq.getVipGrade(), entity,
-				channelId);
+		List<PayTypeVo> payTypeVos = payService.getPayTypeVoList();
 		//
 		if (payTypeVos == null || payTypeVos.size() == 0) {
 			return new RetModel<List<PayTypeVo>>(1, "当前没有充值通道可用");
@@ -104,18 +87,9 @@ public class PayController {
 		// 获取商品配置
 		// StoreInfo storeInfo = discountService.getStoreInfoById(goodsId);
 		// 获取渠道配置
-		LobbyVersionList entity = lobbyVersionService.getLobbyVersionList(channelId);
-		// 获取团队id
-		int whichOne = entity.getAll_promotion_config();
 
 		// 判断是否首次充值，若为首次充值giftCoin不为0
 		int giftCoin = 0;
-		/*
-		 * if(goodsId != 0) { int isFirstPay = payOrderService.IsFirstPay(userId);
-		 * if(isFirstPay == 0) { giftCoin =
-		 * payOrderService.getGiftCoinByFirstPay(goodsId); } }
-		 */
-
 		if (payOrderReq.getDiscountCoin() != 0) {
 			if (JudgeDiscountStatus(goodsId, userId) == 1) {
 				giftCoin = payOrderReq.getDiscountCoin();
@@ -165,18 +139,23 @@ public class PayController {
 
 		// 获取充值渠道配置
 		PayMethodInstance payInstance = payService.filterPayMethodInstance(orderAmount, payViewId,
-				payMethodView.getPayMethodId(), payMethodView.isBolFixed(), whichOne);
+				payMethodView.getPayMethodId(), payMethodView.isBolFixed());
 		// 创建本地订单
 		PayOrder payOrder = payOrderService.createOrder(userId, userName, orderAmount, payMethodView.getRebateRate(),
 				channelId, orderMachine, orderGameId, payMethodView.getId(), payInstance.getPayMethodId(),
-				payInstance.getPayTypeId(), payInstance.getPayMerchantId(), payInstance.getPayChannelId(), whichOne,
+				payInstance.getPayTypeId(), payInstance.getPayMerchantId(), payInstance.getPayChannelId(),
 				HttpUtil.getIpAddr(req), giftCoin, goodsId);
 
 		if (payOrder == null) {
 			return new RetModel<Map<String, Object>>(2, "interal-error");
 		}
 
-		String submitUrl = payService.buildSubmitUrl(payOrder.getOrderNo(), req);
+		String submitUrl = null;
+		try {
+			submitUrl = payService.buildSubmitUrl(payOrder.getOrderNo(), req);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.out.println(submitUrl);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("submitWay", payInstance.getSubmitWay());
@@ -289,7 +268,7 @@ public class PayController {
 
 		if (payOrder.getStatus() == PayOrder.ORDER_SETTLED) {
 
-			long gameCoin = coinService.getGameCoin(payOrder.getUserId());
+			long gameCoin = 0L;
 			Map<String, Object> data = new HashMap<String, Object>();
 			data.put("gameCoin", gameCoin);
 			return new RetModel<Map<String, Object>>(data);
@@ -304,13 +283,7 @@ public class PayController {
 		} else if (orderStatus == PayOrder.PAY_SUCCESS) {
 			return new RetModel<>(3, "支付成功，在结算！");
 		} else if (orderStatus == PayOrder.ORDER_SETTLED) {
-			// 当前玩家身上金币
-			long gameCoin = coinService.getGameCoin(payOrder.getUserId());
-			Map<String, Object> data = new HashMap<String, Object>();
-			data.put("gameCoin", gameCoin);
-			DiscountInfo discountInfo = discountService.getDiscountInfo(payOrder.getUserId());
-			discountService.updateDiscountInfo(discountInfo, payOrder);
-			return new RetModel<Map<String, Object>>(data);
+			return new RetModel<Map<String, Object>>();
 		} else {
 			return new RetModel<>(-3, "server-error!");
 		}
@@ -318,23 +291,7 @@ public class PayController {
 	}
 
 	public int JudgeDiscountStatus(int goodsId, int user_id) {
-		DiscountInfo discountInfo = discountService.getDiscountInfo(user_id);
-		if (goodsId == 0) {
 			return 0;
-		} else if (goodsId == 2) {
-			return discountInfo.getDomino_gold_t_002();
-		} else if (goodsId == 3) {
-			return discountInfo.getDomino_gold_t_003();
-		} else if (goodsId == 4) {
-			return discountInfo.getDomino_gold_t_004();
-		} else if (goodsId == 5) {
-			return discountInfo.getDomino_gold_t_005();
-		} else if (goodsId == 6) {
-			return discountInfo.getDomino_gold_t_006();
-		} else {
-			return discountInfo.getDomino_gold_t_first();
-		}
-
 	}
 
 }

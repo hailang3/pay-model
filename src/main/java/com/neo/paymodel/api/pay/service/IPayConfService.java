@@ -28,7 +28,7 @@ public interface IPayConfService {
 	
 	public PayMerchant getPayMerchant(int payChannelId, int whichOne);
 	
-	public Map<String, PayMethodInstance> getPayMethodInstanceMap(int payMethodId, int whichOne);
+	public Map<String, PayMethodInstance> getPayMethodInstanceMap(int payMethodId);
 	
 	public List<PayViewBind> getPayViewBindList(int payViewId);
 

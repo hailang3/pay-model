@@ -12,7 +12,7 @@ public interface IPayDao {
 	PayOrder createOrder(String orderNo, int userId, String userName, long orderAmount,
 						 int rebateCoin, int rebateRate, String channelId, String orderMachine, int orderGameId,
 						 int payViewId, int payMethodId, int payTypeId, int payMerchantId,
-						 int payChannelId, int whichOne, String ipAddr, int giftCoin, int goodsId);
+						 int payChannelId,  String ipAddr, int giftCoin, int goodsId);
 
 	PayOrder getPayOrder(String orderNo);
 
@@ -43,10 +43,8 @@ public interface IPayDao {
 
 	PayChannelMethod getPayChannelMethod(int payMethodId, int payChannelId);
 
-	List<PayMethodInstance> getPayMethodInstanceList(int payMethodId,
-                                                     int whichOne);
-	
-	
+	List<PayMethodInstance> getPayMethodInstanceList(int payMethodId);
+
 	List<PayType> getPayTypeListSorted();
 
 	List<PayView> getPayViewListSorted(int whichOne);

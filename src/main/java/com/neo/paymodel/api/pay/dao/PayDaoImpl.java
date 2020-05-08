@@ -22,7 +22,7 @@ public class PayDaoImpl implements IPayDao {
 	public PayOrder createOrder(String orderNo, int userId, String userName, long orderAmount,
 								int rebateCoin, int rebateRate, String channelId, String orderMachine, int orderGameId,
 								int payViewId, int payMethodId, int payTypeId, int payMerchantId,
-								int payChannelId, int whichOne, String ipAddr, int giftCoin, int goodsId) {
+								int payChannelId,  String ipAddr, int giftCoin, int goodsId) {
 
 		
 		String sql="insert into plat_pay_db.pay_order_record ("
@@ -37,7 +37,7 @@ public class PayDaoImpl implements IPayDao {
 		int effectRowCount=0;
 		try {
 			effectRowCount = jdbcTemplate.update(sql, orderNo, userId, userName, orderAmount, rebateCoin, rebateRate, giftCoin,
-					orderMachine, orderGameId, ipAddr, channelId, whichOne, payViewId, payMerchantId, payChannelId, payMethodId, payTypeId, goodsId);
+					orderMachine, orderGameId, ipAddr, channelId, payViewId, payMerchantId, payChannelId, payMethodId, payTypeId, goodsId);
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		}
@@ -56,7 +56,6 @@ public class PayDaoImpl implements IPayDao {
 		payOrder.setOrderMachine(orderMachine);
 		payOrder.setOrderIp(ipAddr);
 		payOrder.setChannelId(channelId);
-		payOrder.setWhichOne(whichOne);
 		payOrder.setPayViewId(payViewId);
 		payOrder.setPayMerchantId(payMerchantId);
 		payOrder.setPayChannelId(payChannelId);
@@ -208,10 +207,9 @@ public class PayDaoImpl implements IPayDao {
 	
 	
 	@Override
-	public List<PayMethodInstance> getPayMethodInstanceList(int payMethodId,
-			int whichOne) {
-		String sql="select * from plat_pay_db.config_pay_method_instance where pay_method_id=? and which_one=?";
-		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<PayMethodInstance>(PayMethodInstance.class), payMethodId, whichOne);
+	public List<PayMethodInstance> getPayMethodInstanceList(int payMethodId) {
+		String sql="select * from plat_pay_db.config_pay_method_instance where pay_method_id=? ";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<PayMethodInstance>(PayMethodInstance.class), payMethodId);
 	}
 
 

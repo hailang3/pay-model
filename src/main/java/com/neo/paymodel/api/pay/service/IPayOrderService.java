@@ -7,10 +7,10 @@ import java.sql.Timestamp;
 public interface IPayOrderService {
 
 	PayOrder createOrder(int userId, String userName, long planAmount, int rebateRate, String channelId, String orderMachine, int orderGameId, int payViewId, int payMethodId, int payType,
-						 int payMerchantId, int payChannelId, int whichOne, String ipAddr, int giftCoin, int goodsId);
+						 int payMerchantId, int payChannelId,  String ipAddr, int giftCoin, int goodsId);
 
 	PayOrder createOrder(String orderNo, int userId, String userName, long planAmount, int rebateCoin, int rebateRate, String channelId, String orderMachine, int orderGameId, int payViewId, int payMethodId, int payType,
-                         int payMerchantId, int payChannelId, int whichOne, String ipAddr, int giftCoin, int goodsId);
+                         int payMerchantId, int payChannelId, String ipAddr, int giftCoin, int goodsId);
 
 
 	PayOrder getPayOrder(String orderNo);

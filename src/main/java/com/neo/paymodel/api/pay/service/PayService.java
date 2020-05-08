@@ -43,11 +43,11 @@ public class PayService {
 	private IPayDao payDao;
 	
 
-	public PayMethodInstance filterPayMethodInstance(Long orderAmount, int payViewId, int payMethodId, boolean bolFixed, int whichOne) {
+	public PayMethodInstance filterPayMethodInstance(Long orderAmount, int payViewId, int payMethodId, boolean bolFixed) {
 		
 		
 		//现不考虑  支付宝与支付宝固额 相互包含的情况 只根据 payTypeId 拉出payMethods
-		Map<String,PayMethodInstance> payInstanceMap = payConfService.getPayMethodInstanceMap(payMethodId, whichOne);
+		Map<String,PayMethodInstance> payInstanceMap = payConfService.getPayMethodInstanceMap(payMethodId);
 
 		Map<String,PayMethodInstance> newMap = new HashMap<String,PayMethodInstance>();
 		
@@ -315,7 +315,7 @@ public class PayService {
 //	}
 	
 	
-	public String buildSubmitUrl(String orderNo, HttpServletRequest req) {
+	public String buildSubmitUrl(String orderNo, HttpServletRequest req) throws Exception {
 		
 		Map<String, Object> parameterMap = HttpUtil.getParameterMap(req, false);
 		parameterMap.remove("sign");
@@ -373,4 +373,7 @@ public class PayService {
 		System.out.println(result.get(aa));
 	}
 
+	public List<PayTypeVo> getPayTypeVoList() {
+		return null;
+	}
 }

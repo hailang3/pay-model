@@ -109,13 +109,13 @@ public class PayConfService implements IPayConfService {
 
 	@Override
 	@Cacheable(value = PayConstant.CACHE,
-		key = "T(com.dsgame.pay.api.util.PayConstant).PREFIX_PAY_METHOD_INSTANCE_MAP + #whichOne+':'+#payMethodId ")
+		key = "T(com.dsgame.pay.api.util.PayConstant).PREFIX_PAY_METHOD_INSTANCE_MAP +#payMethodId ")
 	public Map<String, PayMethodInstance> getPayMethodInstanceMap(
-			int payMethodId, int whichOne) {
+			int payMethodId) {
 
 		Map<String, PayMethodInstance> payInstanceMap = new HashMap<String, PayMethodInstance>();
 		List<PayMethodInstance> payMethodInstances = payDao
-				.getPayMethodInstanceList(payMethodId, whichOne);
+				.getPayMethodInstanceList(payMethodId);
 		for (PayMethodInstance payInstance : payMethodInstances) {
 			// 状态开启的支付方式实例都会有权重，默认为1
 			payInstance.setWeight(1);

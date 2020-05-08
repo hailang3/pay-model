@@ -1,6 +1,7 @@
 package com.neo.paymodel.api.pay.web.vo;
 
-import com.dsgame.pay.api.util.RequestParams;
+
+import com.neo.paymodel.api.pay.util.RequestParams;
 
 @RequestParams
 public class PayCheckRequest {
