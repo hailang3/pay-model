@@ -5,11 +5,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.neo.paymodel.api.pay.dao.IPayDao;
 import com.neo.paymodel.api.pay.entity.*;
-import com.neo.paymodel.api.pay.util.Md5Util;
 import com.neo.paymodel.api.pay.web.vo.PayTypeVo;
 import com.neo.paymodel.api.pay.web.vo.PayViewVo;
 import com.neo.paymodel.common.util.AESUtils;
 import com.neo.paymodel.common.util.HttpUtil;
+import com.neo.paymodel.common.util.MD5Util;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -281,7 +281,7 @@ public class PayService {
             content.append(i==0 ? "" : "&").append(key).append("=").append(value);
         }
         
-        String genSign = Md5Util.encode(content.toString()+"&key="+paySignKey);
+        String genSign = MD5Util.encode(content.toString()+"&key="+paySignKey);
         
         return sign.equalsIgnoreCase(genSign);
 	}
@@ -330,7 +330,7 @@ public class PayService {
             content.append(i==0 ? "" : "&").append(key).append("=").append(value);
         }
         // 组成参数 加密参数sign urlnormal + "&key=配置的md5key";
-        String sign = Md5Util.encode(content.toString()+"&key=" + md5SignKey);
+        String sign = MD5Util.encode(content.toString()+"&key=" + md5SignKey);
         
         // urlnormal + "&sign=md5(md5Key)";
 		 String paramStr = content.toString()+"&sign="+sign;
@@ -350,7 +350,7 @@ public class PayService {
         StringBuffer originalURL = req.getRequestURL();
         String requstUrl = originalURL.toString().replace("order", "pay");
         
-        return requstUrl+"?"+finalParams + "&sign=" + Md5Util.encode(finalParams);
+        return requstUrl+"?"+finalParams + "&sign=" + MD5Util.encode(finalParams);
         
 	}
 	

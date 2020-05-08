@@ -1,4 +1,4 @@
-package com.neo.paymodel.api.pay.util;
+package com.neo.paymodel.common.util;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package com.neo.paymodel.api.pay.util;
+package com.neo.paymodel.common.util;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;

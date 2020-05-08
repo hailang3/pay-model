@@ -4,7 +4,7 @@ package com.neo.paymodel.api.pay.service.impl;
 import com.neo.paymodel.api.pay.dao.IPayDao;
 import com.neo.paymodel.api.pay.entity.*;
 import com.neo.paymodel.api.pay.service.IPayConfService;
-import com.neo.paymodel.api.pay.util.PayConstant;
+import com.neo.paymodel.common.util.PayConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

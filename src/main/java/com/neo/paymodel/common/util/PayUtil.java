@@ -127,15 +127,15 @@ public class PayUtil {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < keys.size(); i++) {
-        	String key = keys.get(i);
-            String value = String.valueOf(para.get(key));
+            Object key = keys.get(i);
+            Object value = para.get(key);
 
             if (encode) {
                 try {
-                    key = URLEncoder.encode(key, "UTF-8");
-                    value = URLEncoder.encode(value, "UTF-8");
-                    key = URLEncoder.encode(key, "UTF-8");
-                    value = URLEncoder.encode(value, "UTF-8");
+                    key = URLEncoder.encode((String) key, "UTF-8");
+                    value = URLEncoder.encode((String) value, "UTF-8");
+                    key = URLEncoder.encode((String) key, "UTF-8");
+                    value = URLEncoder.encode((String) value, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                 }
             }

@@ -1,7 +1,7 @@
 package com.neo.paymodel.api.pay.web.vo;
 
 
-import com.neo.paymodel.api.pay.util.RequestParams;
+import com.neo.paymodel.common.util.RequestParams;
 
 @RequestParams
 public class PayCheckRequest {

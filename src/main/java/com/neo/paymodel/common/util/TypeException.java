@@ -1,4 +1,4 @@
-package com.neo.paymodel.api.pay.util;
+package com.neo.paymodel.common.util;
 
 public class TypeException extends Exception {
 	public TypeException() {

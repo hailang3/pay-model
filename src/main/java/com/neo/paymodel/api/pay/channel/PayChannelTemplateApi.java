@@ -2,8 +2,8 @@ package com.neo.paymodel.api.pay.channel;
 
 import com.neo.paymodel.api.pay.entity.PayOrder;
 import com.neo.paymodel.api.pay.service.IPayOrderService;
-import com.neo.paymodel.api.pay.util.HttpUtil;
-import com.neo.paymodel.api.pay.util.WebUtil;
+import com.neo.paymodel.common.util.HttpUtil;
+import com.neo.paymodel.common.util.WebUtil;
 import com.neo.paymodel.api.pay.web.vo.PaySubmitRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

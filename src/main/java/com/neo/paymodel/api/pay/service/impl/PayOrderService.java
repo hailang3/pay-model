@@ -4,7 +4,7 @@ import com.neo.paymodel.api.pay.dao.IPayDao;
 import com.neo.paymodel.api.pay.entity.PayOrder;
 import com.neo.paymodel.api.pay.entity.PayView;
 import com.neo.paymodel.api.pay.service.IPayOrderService;
-import com.neo.paymodel.api.pay.util.RandomChars;
+import com.neo.paymodel.common.util.RandomChars;
 import net.sf.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

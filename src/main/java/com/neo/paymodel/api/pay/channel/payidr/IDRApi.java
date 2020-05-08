@@ -6,9 +6,9 @@ import com.neo.paymodel.api.pay.channel.Channel;
 import com.neo.paymodel.api.pay.channel.IPayContext;
 import com.neo.paymodel.api.pay.channel.PayChannelTemplateApi;
 import com.neo.paymodel.api.pay.entity.PayOrder;
-import com.neo.paymodel.api.pay.util.Md5Util;
-import com.neo.paymodel.api.pay.util.RequestUtil;
-import com.neo.paymodel.api.pay.util.WebUtil;
+import com.neo.paymodel.common.util.MD5Util;
+import com.neo.paymodel.common.util.RequestUtil;
+import com.neo.paymodel.common.util.WebUtil;
 import com.neo.paymodel.api.pay.web.model.RetModel;
 import com.neo.paymodel.api.pay.web.vo.BankInfo;
 import com.neo.paymodel.api.pay.web.vo.PaySubmitRequest;
@@ -65,15 +65,10 @@ public class IDRApi extends PayChannelTemplateApi {
 		String success_url = context.getConfig("success_url").toString();
 		String fail_url =  context.getConfig("fail_url").toString();
 		String callback_noti_url = context.getNotifyUrl();
-		
-//		md5_key + merchant_id + business_email + order_id + deposit_method_id   
-//        + bank_id + deposit_amount + currency + customer_name + customer_email + customer_phone_no + customer_address  
-//        + note + website_url + request_time + success_url +fail_url + callback_noti_url
-		
 		String sign_data_str = key + merchant_id + business_email + order_id + deposit_method_id + bank_id + deposit_amount + currency +
 				               customer_name + customer_email + customer_phone_no + customer_address  
 				               + note + website_url + request_time + success_url + fail_url + callback_noti_url;
-		String sign_data = Md5Util.encode(sign_data_str).toUpperCase();
+		String sign_data = MD5Util.encode(sign_data_str).toUpperCase();
 		
 		
 		String API_USER_NAME = context.getConfig("API_USER_NAME").toString();
@@ -177,7 +172,7 @@ public class IDRApi extends PayChannelTemplateApi {
 			String signStr = context.getSignKey() + merchant_id + order_id + deposit_method_id + currency;
 			logger.info("IDRApi notify signstr [{}]", signStr);
 			
-			String checkSign = Md5Util.encode(signStr).toUpperCase();
+			String checkSign = MD5Util.encode(signStr).toUpperCase();
 			logger.info("IDRApi notify checkSign [{}]", checkSign);
 			if(checkSign.equalsIgnoreCase(sign_data)) {
 				return true;

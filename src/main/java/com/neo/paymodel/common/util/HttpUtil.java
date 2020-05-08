@@ -28,7 +28,7 @@ import java.util.*;
 
 public final class HttpUtil {
 
-    public static String getSerchPersion(String url,String param){
+    public static String getSerchPersion(String url, String param) {
         /* 1 生成 HttpClinet 对象并设置参数 */
         HttpClient httpClient = new HttpClient();
         // 设置 Http 连接超时为秒
@@ -45,7 +45,7 @@ public final class HttpUtil {
             int statusCode = httpClient.executeMethod(getMethod);
             /* 4 判断访问的状态码 */
             if (statusCode != HttpStatus.SC_OK) {
-                System.err.println("请求出错: "+ getMethod.getStatusLine());
+                System.err.println("请求出错: " + getMethod.getStatusLine());
             }
             /* 5 处理 HTTP 响应内容 */
             // HTTP响应头部信息，这里简单打印
@@ -73,13 +73,15 @@ public final class HttpUtil {
         }
         return response;
     }
+
     /**
      * post请求
+     *
      * @param url
      * @param json
      * @return
      */
-    public static JSONObject doPost(String url,JSONObject json){
+    public static JSONObject doPost(String url, JSONObject json) {
         DefaultHttpClient client = new DefaultHttpClient();
         HttpPost post = new HttpPost(url);
         JSONObject response = null;
@@ -89,7 +91,7 @@ public final class HttpUtil {
             s.setContentType("application/json");//发送json数据需要设置contentType
             post.setEntity(s);
             HttpResponse res = client.execute(post);
-            if(res.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+            if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 HttpEntity entity = res.getEntity();
                 String result = EntityUtils.toString(res.getEntity());// 返回json格式：
                 response = JSONObject.fromObject(result);
@@ -99,6 +101,7 @@ public final class HttpUtil {
         }
         return response;
     }
+
     static String UNKNOWN_IP = "unknown";
 
     public static String getRealIp(String ip) {
@@ -157,8 +160,10 @@ public final class HttpUtil {
         return ip;
     }
 
-    /** Wap网关Via头信息中特有的描述信息 */
-    private static String mobileGateWayHeaders[] = new String[] { "ZXWAP",// 中兴提供的wap网关的via信息，例如：Via=ZXWAP
+    /**
+     * Wap网关Via头信息中特有的描述信息
+     */
+    private static String mobileGateWayHeaders[] = new String[]{"ZXWAP",// 中兴提供的wap网关的via信息，例如：Via=ZXWAP
             // GateWayZTE
             // Technologies，
             "chinamobile.com",// 中国移动的诺基亚wap网关，例如：Via=WTP/1.1
@@ -175,8 +180,10 @@ public final class HttpUtil {
             "Bytemobile"// 貌似是一个给移动互联网提供解决方案提高网络运行效率的，例如：Via=1.1 Bytemobile OSN
             // WebProxy/5.1
     };
-    /** 手机浏览器的User-Agent里的关键词 */
-    private static String[] mobileUserAgents = new String[] { "Nokia",// 诺基亚，有山寨机也写这个的，总还算是手机，Mozilla/5.0
+    /**
+     * 手机浏览器的User-Agent里的关键词
+     */
+    private static String[] mobileUserAgents = new String[]{"Nokia",// 诺基亚，有山寨机也写这个的，总还算是手机，Mozilla/5.0
             // (Nokia5800
             // XpressMusic)UC
             // AppleWebkit(like
@@ -250,15 +257,16 @@ public final class HttpUtil {
             "IEMobile",// Windows CE手机自带浏览器，
             "WAP2.0"// 支持wap 2.0的
     };
-    /** 电脑上的IE或Firefox浏览器等的User-Agent关键词 */
-    private static String[] pcHeaders = new String[] { "Windows 98",
-            "Windows ME", "Windows 2000", "Windows XP", "Windows NT", "Ubuntu" };
+    /**
+     * 电脑上的IE或Firefox浏览器等的User-Agent关键词
+     */
+    private static String[] pcHeaders = new String[]{"Windows 98",
+            "Windows ME", "Windows 2000", "Windows XP", "Windows NT", "Ubuntu"};
 
     /**
      * 根据当前请求的特征，判断该请求是否来自手机终端，主要检测特殊的头信息，以及user-Agent这个header
      *
-     * @param request
-     *            http请求
+     * @param request http请求
      * @return 如果命中手机特征规则，则返回对应的特征字符串
      */
     public static boolean isMobileDevice(HttpServletRequest request) {
@@ -294,92 +302,94 @@ public final class HttpUtil {
         return b;// false pc true shouji
     }
 
-    public static String getMobileDeviceSystem(String user_agent){//操作系统
+    public static String getMobileDeviceSystem(String user_agent) {//操作系统
         String temp = "";
-        try{
+        try {
             temp = user_agent.replaceAll(" ", "").toUpperCase();
-            if( checkAgentIsIos(user_agent) ){
-                temp = temp.substring(temp.indexOf("MOZILLA")+1,temp.length());
-                temp = temp.substring(temp.indexOf("(")+1,temp.length());
-                temp = temp.substring(0,temp.indexOf(")"));
-                for(String str : userAgentReplaceArgs){
+            if (checkAgentIsIos(user_agent)) {
+                temp = temp.substring(temp.indexOf("MOZILLA") + 1, temp.length());
+                temp = temp.substring(temp.indexOf("(") + 1, temp.length());
+                temp = temp.substring(0, temp.indexOf(")"));
+                for (String str : userAgentReplaceArgs) {
                     temp = temp.replaceAll(str, "");
                 }
                 temp = temp.replaceAll(";;", ";");
 
-                if(temp.split(";").length>=2){
+                if (temp.split(";").length >= 2) {
                     temp = temp.split(";")[0];
                 }
-            }else{
-                temp = temp.substring(temp.indexOf("MOZILLA")+1,temp.length());
-                temp = temp.substring(temp.indexOf("(")+1,temp.length());
-                temp = temp.substring(0,temp.indexOf(")"));
-                for(String str : userAgentReplaceArgs){
+            } else {
+                temp = temp.substring(temp.indexOf("MOZILLA") + 1, temp.length());
+                temp = temp.substring(temp.indexOf("(") + 1, temp.length());
+                temp = temp.substring(0, temp.indexOf(")"));
+                for (String str : userAgentReplaceArgs) {
                     temp = temp.replaceAll(str, "");
                 }
                 temp = temp.replaceAll(";;", ";");
 
-                if(temp.split(";").length>2){
-                    temp = temp.split(";")[0]+";"+temp.split(";")[1];
+                if (temp.split(";").length > 2) {
+                    temp = temp.split(";")[0] + ";" + temp.split(";")[1];
                 }
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return temp;
     }
-    public static String getMobileDeviceMachine(String user_agent){//手机设备型号
+
+    public static String getMobileDeviceMachine(String user_agent) {//手机设备型号
         String temp = "";
-        try{
+        try {
             temp = user_agent.replaceAll(" ", "").toUpperCase();
-            if( checkAgentIsIos(user_agent) ){
-                temp = temp.substring(temp.indexOf("MOZILLA")+1,temp.length());
-                temp = temp.substring(temp.indexOf("(")+1,temp.length());
-                temp = temp.substring(0,temp.indexOf(")"));
-                for(String str : userAgentReplaceArgs){
+            if (checkAgentIsIos(user_agent)) {
+                temp = temp.substring(temp.indexOf("MOZILLA") + 1, temp.length());
+                temp = temp.substring(temp.indexOf("(") + 1, temp.length());
+                temp = temp.substring(0, temp.indexOf(")"));
+                for (String str : userAgentReplaceArgs) {
                     temp = temp.replaceAll(str, "");
                 }
                 temp = temp.replaceAll(";;", ";");
 
-                if(temp.split(";").length>=2){
+                if (temp.split(";").length >= 2) {
                     temp = temp.split(";")[1];
                 }
-            }else{
-                if( temp.startsWith("MOZILLA") ){
-                    temp = temp.substring(temp.indexOf("(")+1,temp.length());
-                    temp = temp.substring(0,temp.indexOf(")"));
-                    for(String str : userAgentReplaceArgs){
+            } else {
+                if (temp.startsWith("MOZILLA")) {
+                    temp = temp.substring(temp.indexOf("(") + 1, temp.length());
+                    temp = temp.substring(0, temp.indexOf(")"));
+                    for (String str : userAgentReplaceArgs) {
                         temp = temp.replaceAll(str, "");
                     }
                     temp = temp.replaceAll(";;", ";");
 
-                    if(temp.split(";").length>=3){
+                    if (temp.split(";").length >= 3) {
                         temp = temp.split(";")[2];
                     }
-                }else{
-                    temp = temp.substring(0,temp.indexOf("ANDROID"));
+                } else {
+                    temp = temp.substring(0, temp.indexOf("ANDROID"));
                 }
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return temp;
     }
-    public static String getMobileDeviceMobile(String user_agent){//MOBILE参数
+
+    public static String getMobileDeviceMobile(String user_agent) {//MOBILE参数
         String temp = "";
-        try{
+        try {
             temp = user_agent.toUpperCase();
 
-            if( checkAgentIsIos(user_agent) ){
-                temp = temp.substring(temp.indexOf("MOBILE/")+7,temp.length());
-                if(temp.indexOf(" ")!=-1){
-                    temp = temp.substring(0,temp.indexOf(" "));
+            if (checkAgentIsIos(user_agent)) {
+                temp = temp.substring(temp.indexOf("MOBILE/") + 7, temp.length());
+                if (temp.indexOf(" ") != -1) {
+                    temp = temp.substring(0, temp.indexOf(" "));
                 }
             } else {
                 temp = "";
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return temp;
@@ -409,13 +419,13 @@ public final class HttpUtil {
 
     public static void main(String[] args) {
         String user_agent = "Mozilla/5.0 (Linux; Android 5.1; vivo X6D Build/LMY47I) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/39.0.0.0 Mobile Safari/537.36";
-        System.out.println("System:  "+getMobileDeviceSystem(user_agent));
-        System.out.println("Machine: "+getMobileDeviceMachine(user_agent));
-        System.out.println("Mobile:  "+getMobileDeviceMobile(user_agent));
+        System.out.println("System:  " + getMobileDeviceSystem(user_agent));
+        System.out.println("Machine: " + getMobileDeviceMachine(user_agent));
+        System.out.println("Mobile:  " + getMobileDeviceMobile(user_agent));
     }
 
-    private static final String[] userAgentReplaceArgs = {"U;",";WV","ZH-CN","EN-US"};
-    private final static String[] BROWSE_USER_AGENT_IOS = { "IPHONE", "IPOD","IPAD"};
+    private static final String[] userAgentReplaceArgs = {"U;", ";WV", "ZH-CN", "EN-US"};
+    private final static String[] BROWSE_USER_AGENT_IOS = {"IPHONE", "IPOD", "IPAD"};
 
 
     public static final Logger logger = LoggerFactory.getLogger(HttpUtil.class);
@@ -480,7 +490,7 @@ public final class HttpUtil {
      * @param charset 编码方式
      */
     public static String sendPost(String url, Map<String, Object> param,
-            String charset) throws UnsupportedEncodingException {
+                                  String charset) throws UnsupportedEncodingException {
         long start_time = System.currentTimeMillis();
         StringBuffer buffer = new StringBuffer();
         if (param != null && !param.isEmpty()) {
@@ -504,7 +514,7 @@ public final class HttpUtil {
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("connection", "Keep-Alive");
             conn.setRequestProperty("user-agent",
-                                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
             // 发送POST请求必须设置如下两行
             conn.setDoOutput(true);
             conn.setDoInput(true);
@@ -553,7 +563,7 @@ public final class HttpUtil {
      * @param charset 编码方式
      */
     public static String sendPost(String url, Map<String, Object> param,
-            String charset, String type) throws UnsupportedEncodingException {
+                                  String charset, String type) throws UnsupportedEncodingException {
         long start_time = System.currentTimeMillis();
         StringBuffer buffer = new StringBuffer();
         if (param != null && !param.isEmpty()) {
@@ -716,13 +726,133 @@ public final class HttpUtil {
         return info;
     }
 
+    public static String readFileContent1(InputStream is) {
+
+        // InputStream is = null;
+
+        BufferedReader br = null;
+        InputStreamReader isr = null;
+        BufferedWriter bw = null;
+        StringBuffer line = new StringBuffer();
+        String str = null;
+        // File file1 = new File("info2.txt");
+        // OutputStreamWriter osw = null;
+        try {
+            // is = new FileInputStream(soureFile);
+            isr = new InputStreamReader(is, "gb2312");
+            FileOutputStream fos;
+            // fos = new FileOutputStream(file1);
+            // osw = new OutputStreamWriter(fos);
+            br = new BufferedReader(isr);
+            // bw = new BufferedWriter(osw);
+            while ((str = br.readLine()) != null) {
+                line.append(str);
+                // System.out.println("str:" + str);
+                line.append("\n");
+            }
+            // System.out.println("line:" + line);
+            // System.out.println("line.toString():"+line.toString());
+            // bw.write("我发沙敦府打算发是！");
+            // bw.close();
+
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return line.toString();
+    }
+
+   /* *//**
+     * 获取IP地址
+     *
+     *
+     * @return
+     *//*
+    public static String getIpAddr(HttpServletRequest request) {
+        String ip = null;
+        //
+        ip = request.getHeader("X-Forwarded-For");
+        if (isRealIP(ip)) {
+            return getRealIp(ip);
+        }
+        //
+        ip = request.getHeader("Proxy-Client-IP");
+        if (isRealIP(ip)) {
+            return getRealIp(ip);
+        }
+        //
+        ip = request.getHeader("WL-Proxy-Client-IP");
+        if (isRealIP(ip)) {
+            return getRealIp(ip);
+        }
+        //
+        ip = request.getHeader("HTTP_CLIENT_IP");
+        if (isRealIP(ip)) {
+            return getRealIp(ip);
+        }
+        //
+        ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        if (isRealIP(ip)) {
+            return getRealIp(ip);
+        }
+        //
+        ip = request.getParameter("__fromReferIP");
+        if (isRealIP(ip)) {
+            return getRealIp(ip);
+        }
+        // NGINX用
+        ip = request.getHeader("X-Real-IP");
+        if (isRealIP(ip)) {
+            return getRealIp(ip);
+        }
+        ip = request.getRemoteAddr();
+        //
+        return ip;
+    }*/
+
+    //tatic String UNKNOWN_IP = "unknown";
+
+  /*  public static boolean isRealIP(String ip) {
+        return StringUtils.isNotBlank(ip) && !UNKNOWN_IP.equalsIgnoreCase(ip);
+    }*/
+
+   /* public static String getRealIp(String ip) {
+        //
+        if (ip.indexOf(",") != -1) {
+            return StringUtils.left(ip.split(",")[0], 15);
+
+        }
+        return ip;
+    }*/
+
+    public static String getBodyString(BufferedReader br) {
+        String inputLine;
+        String str = "";
+        try {
+            while ((inputLine = br.readLine()) != null) {
+                str += inputLine;
+            }
+            br.close();
+        } catch (IOException e) {
+            System.out.println("IOException: " + e);
+        }
+        return str;
+    }
+
+    static void setHttpProxy(HttpClient httpClient) {
 
 
-
-
-
-
-
-
-
+    }
 }

@@ -1,7 +1,7 @@
 package com.neo.paymodel.api.pay.channel;
 
 
-import com.neo.paymodel.api.pay.util.RandomChars;
+import com.neo.paymodel.common.util.RandomChars;
 
 import java.util.Random;
 

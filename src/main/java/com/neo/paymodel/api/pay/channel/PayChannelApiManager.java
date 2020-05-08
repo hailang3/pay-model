@@ -5,7 +5,7 @@ import com.neo.paymodel.api.pay.entity.PayOrder;
 import com.neo.paymodel.api.pay.service.IPayConfService;
 import com.neo.paymodel.api.pay.service.IPayOrderService;
 import com.neo.paymodel.api.pay.service.PayService;
-import com.neo.paymodel.api.pay.util.WebUtil;
+import com.neo.paymodel.common.util.WebUtil;
 import com.neo.paymodel.api.pay.web.model.RetModel;
 import com.neo.paymodel.api.pay.web.vo.BankInfo;
 import com.neo.paymodel.api.pay.web.vo.PaySubmitRequest;

@@ -1,4 +1,4 @@
-package com.neo.paymodel.api.pay.util;
+package com.neo.paymodel.common.util;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -1,10 +1,8 @@
 package com.neo.paymodel.api.pay.web.filter;
 
-import com.neo.paymodel.api.pay.util.HttpUtil;
 import com.neo.paymodel.common.util.AESUtils;
 import com.neo.paymodel.common.util.Base64;
 import com.neo.paymodel.common.util.MD5Util;
-import com.neo.paymodel.common.util.SpringUtils;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
