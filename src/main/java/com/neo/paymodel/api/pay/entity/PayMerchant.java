@@ -2,6 +2,7 @@ package com.neo.paymodel.api.pay.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 
@@ -11,7 +12,7 @@ import java.sql.Timestamp;
  * @author m
  *
  */
-public class PayMerchant {
+public class PayMerchant  implements Serializable {
 
 	private int id;					// id
 	private String merchantCode;	// 商户代号（唯一标识商户）

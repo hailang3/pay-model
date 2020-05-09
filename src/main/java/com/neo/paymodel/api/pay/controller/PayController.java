@@ -1,4 +1,4 @@
-package com.neo.paymodel.api.pay.web.controller;
+package com.neo.paymodel.api.pay.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.neo.paymodel.api.pay.channel.PayChannelApiManager;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +27,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
-@Controller
+@RestController
 @RequestMapping("/pay")
 public class PayController {
 
@@ -208,11 +209,10 @@ public class PayController {
 		payChannelApiManager.handleNotify(mechantCode, req, resp);
 	}
 	// FlashPay充值渠道回调
-	@ResponseBody
 	@RequestMapping("/flashPayNotify")
+	@ResponseBody
 	public void flashPayNotify(String appId, HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-
 		payChannelApiManager.handleNotify(appId, req, resp);
 	}
 

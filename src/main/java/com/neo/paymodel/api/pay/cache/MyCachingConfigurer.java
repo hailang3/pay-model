@@ -10,7 +10,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.RedisConnectionFailureException;
-import redis.clients.jedis.exceptions.JedisConnectionException;
 
 @Configuration
 @EnableCaching
@@ -45,7 +44,7 @@ class MyCacheErrorHandler implements CacheErrorHandler {
     @Override
     public void handleCacheGetError(RuntimeException e, Cache cache, Object o) {
 
-        if(e instanceof JedisConnectionException || e instanceof RedisConnectionFailureException){
+        if( e instanceof RedisConnectionFailureException){
             logger.warn("redis has lose connection:",e);
             return;
         }
@@ -54,7 +53,7 @@ class MyCacheErrorHandler implements CacheErrorHandler {
 
     @Override
     public void handleCachePutError(RuntimeException e, Cache cache, Object o, Object o1) {
-        if(e instanceof JedisConnectionException || e instanceof RedisConnectionFailureException){
+        if(e instanceof RedisConnectionFailureException){
             logger.warn("redis has lose connection:",e);
             return;
         }
