@@ -1,5 +1,13 @@
 # Getting Started
 ### 抽离支付接入逻辑，实现支付渠道可配置
+##
+###常见支付流程示意图
+![avatar](http://5b0988e595225.cdn.sohucs.com/images/20180112/aba398583ba44e09a7c8f9bf5d13d66c.jpeg)
+![avatar](https://images0.cnblogs.com/blog/700916/201502/150913126675398.png)
+
+
+
+
 ### Reference Documentation
 For further reference, please consider the following sections:
 
