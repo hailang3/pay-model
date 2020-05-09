@@ -1,14 +1,11 @@
 package com.neo.paymodel.api.pay.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.sql.Timestamp;
 
 
 /**
  * 充值渠道的充值方式配置
- * @author m
- *
  */
 public class PayChannelMethod {
 

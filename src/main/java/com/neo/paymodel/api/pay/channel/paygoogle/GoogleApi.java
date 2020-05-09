@@ -13,9 +13,9 @@ import com.neo.paymodel.api.pay.channel.IPayContext;
 import com.neo.paymodel.api.pay.channel.PayChannelTemplateApi;
 import com.neo.paymodel.api.pay.entity.PayOrder;
 import com.neo.paymodel.api.pay.service.PayService;
-import com.neo.paymodel.api.pay.web.model.RetModel;
-import com.neo.paymodel.api.pay.web.vo.BankInfo;
-import com.neo.paymodel.api.pay.web.vo.PaySubmitRequest;
+import com.neo.paymodel.api.pay.entity.RetModel;
+import com.neo.paymodel.api.pay.entity.BankInfo;
+import com.neo.paymodel.api.pay.entity.PaySubmitRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Channel(id=5, name="谷歌官方支付")
+@Channel(id=5, name="谷歌支付")
 public class GoogleApi extends PayChannelTemplateApi {
 	
 	static final Logger logger = LoggerFactory.getLogger(GoogleApi.class);

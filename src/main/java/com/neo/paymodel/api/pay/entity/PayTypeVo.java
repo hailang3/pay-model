@@ -1,4 +1,4 @@
-package com.neo.paymodel.api.pay.web.vo;
+package com.neo.paymodel.api.pay.entity;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonInclude;

@@ -163,7 +163,7 @@ public class DecodeFilter implements Filter {
 				|| request.getRequestURI().contains("getShareTask") || request.getRequestURI().contains("refresh")|| request.getRequestURI().contains("getConfigApp")
 				|| request.getRequestURI().contains("receiveShareTask")|| request.getRequestURI().contains("pay/pay")
 				|| request.getRequestURI().contains("pay/order")|| request.getRequestURI().contains("pay/config")
-				|| request.getRequestURI().contains("/pay/thirdPayNotify/111111111")) {
+				|| request.getRequestURI().contains("/pay/thirdPayNotify")) {
 			return true;
 		}
 		return false;
@@ -179,8 +179,8 @@ public class DecodeFilter implements Filter {
 				|| request.getRequestURI().contains("configPayNotify")
 				|| request.getRequestURI().contains("/otherPay/getEeziePayOut")
 				|| request.getRequestURI().contains("/otherPay/thirdEeziePayOutNotify")
-				|| request.getRequestURI().contains("/pay/notify/{mechantCode}")
-				|| request.getRequestURI().contains("/pay/thirdPayNotify/111111111")) {
+				|| request.getRequestURI().contains("/pay/notify")
+				|| request.getRequestURI().contains("/pay/thirdPayNotify")) {
 			return true;
 		}
 		return false;
@@ -206,7 +206,7 @@ public class DecodeFilter implements Filter {
 			return "";
 		}
 		try {
-			return Encrypt(message, "8w*gaesR^TIlab7a");
+			return Encrypt(message, "123");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

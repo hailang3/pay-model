@@ -7,8 +7,6 @@ import java.sql.Timestamp;
 
 /**
  * 支付渠道
- * @author m
- *
  */
 public class PayChannel {
 

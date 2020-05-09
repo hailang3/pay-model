@@ -4,10 +4,9 @@ import com.neo.paymodel.api.pay.entity.PayOrder;
 import com.neo.paymodel.api.pay.service.IPayOrderService;
 import com.neo.paymodel.common.util.HttpUtil;
 import com.neo.paymodel.common.util.WebUtil;
-import com.neo.paymodel.api.pay.web.vo.PaySubmitRequest;
+import com.neo.paymodel.api.pay.entity.PaySubmitRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
@@ -93,8 +92,6 @@ public abstract class PayChannelTemplateApi extends PayChannelContextApi {
 			logger.debug("#handleNotify:invalid-request-0");
 			return;
 		}
-
-		
 		//参数签名验证，
 		if(!checkNotifyReq(notifyReq, context)){
 			//请求参数不合法
@@ -103,8 +100,6 @@ public abstract class PayChannelTemplateApi extends PayChannelContextApi {
 			logger.debug("#handleNotify:invalid-request-1");
 			return;
 		}
-		
-
 		ITransactionOrder transactionOrder = parsingNotifyReq(notifyReq, context);
 		
 		String orderNo=transactionOrder.getOrderNo();

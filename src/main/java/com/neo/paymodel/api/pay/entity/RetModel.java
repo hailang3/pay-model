@@ -1,8 +1,8 @@
-package com.neo.paymodel.api.pay.web.model;
+package com.neo.paymodel.api.pay.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.neo.paymodel.api.pay.entity.DiscountInfo;
+
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +16,6 @@ public class RetModel<T> {
 	private T data;
 	
 	private List<Map<String, Object>> bankInfos;
-	
-	private DiscountInfo discountInfo;
-	
 	public RetModel() {
 		this.status = true;
 	}
@@ -73,14 +70,5 @@ public class RetModel<T> {
 	public void setBankInfos(List<Map<String, Object>> bankInfos) {
 		this.bankInfos = bankInfos;
 	}
-
-	public DiscountInfo getDiscountInfo() {
-		return discountInfo;
-	}
-
-	public void setDiscountInfo(DiscountInfo discountInfo) {
-		this.discountInfo = discountInfo;
-	}
-
 	
 }

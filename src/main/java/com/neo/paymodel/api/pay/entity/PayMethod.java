@@ -8,8 +8,6 @@ import java.sql.Timestamp;
 /**
  * 支付方式配置
  * config_pay_method
- * @author m
- *
  */
 public class PayMethod {
 

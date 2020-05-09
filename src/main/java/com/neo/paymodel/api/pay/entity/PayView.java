@@ -1,7 +1,6 @@
 package com.neo.paymodel.api.pay.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.sql.Timestamp;
 
 public class PayView {

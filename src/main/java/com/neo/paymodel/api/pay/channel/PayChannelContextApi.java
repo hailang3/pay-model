@@ -6,7 +6,7 @@ import com.neo.paymodel.api.pay.entity.PayChannelMethod;
 import com.neo.paymodel.api.pay.entity.PayMerchant;
 import com.neo.paymodel.api.pay.entity.PayOrder;
 import com.neo.paymodel.api.pay.service.IPayConfService;
-import com.neo.paymodel.api.pay.web.vo.PaySubmitRequest;
+import com.neo.paymodel.api.pay.entity.PaySubmitRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

@@ -14,8 +14,6 @@ public class PayContextFactory {
 	public static IPayContext getPayContext(PayChannelMethod payChannelMethod, PayMerchant payMerchant){
 		return new PayContext(payChannelMethod, payMerchant);
 	}
-	
-	
 	static class PayContext implements IPayContext {
 
 		private PayMerchant payMerchant;

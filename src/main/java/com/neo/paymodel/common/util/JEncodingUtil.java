@@ -37,12 +37,6 @@ public class JEncodingUtil {
 //                             requestParamValueEncoding);
     //
   }
-  //=================================test
-  public static void main(String[] args) throws UnsupportedEncodingException {
-    System.out.println(urlDecode("%BF%A8%B2%BB%B4%E6%D4%DA%BB%F2%D3%E0%B6%EE%CE%AA0",ENCODING_GBK));
-    System.out.println(urlDecode("您好"));
-    System.out.println(URLEncoder.encode(JEncodingUtil.urlDecode("http%3a%2f%2fpayback.7pmi.com%2fcz591payBackground.jhtml"),"utf-8"));
-  }
 }
   
 

@@ -8,8 +8,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AESUtils {
 
-	static String key = "DFC3E85633C43925";  //16位
-    static String iv = "DFC3E85633C43925";  //16位
+	static String key = "RFC3E85633C43925";  //16位
+    static String iv = "RFC3E85633C43925";  //16位
 
     public static String encryptAES(String data) throws Exception {
 
@@ -90,12 +90,4 @@ public class AESUtils {
             }
             return result;
     }
-    
-    
-//    public static void main(String args[]) throws Exception {
-//        String ss = encryptAES("channel_id=9900111912130011&machineCode=H5-ZX1K38VQUR302PCX&user_id=5459911");
-//    	System.out.println(ss);
-//         System.out.println(decryptAES(ss));
-//     }
-
 }

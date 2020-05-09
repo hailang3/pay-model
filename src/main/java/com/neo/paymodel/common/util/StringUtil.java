@@ -107,8 +107,7 @@ public class StringUtil {
 
 	/**
 	 * 将byte[] 转换成字符串
-	 * 
-	 * @param b
+	 *
 	 * @return
 	 */
 	public static String byte2Hex(byte[] srcBytes) {
@@ -260,19 +259,6 @@ public class StringUtil {
 		eIdx = requestUrl.indexOf("/");
 		return requestUrl.substring(0, eIdx);
 	}
-
-	public static void main(String[] args) {
-		/*String ss = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*()_+{}|:>?;'./[]-=`'";
-		char[] numbersAndLetters = ss.toCharArray();
-		for (char c : numbersAndLetters) {
-			System.out.print("'" + c + "',");
-		}*/
-		
-//		String a="\\XE7\\x8E\\x8B\\xE9\\x9F\\b7\\xB6\\xE7\\xBB\\x83";
-		String a="E9BB84E4B89CE697ADb7b7b7";
-		System.out.println(isChineseName(a));
-	}
-
 	/**
 	 * 是否为十六进制
 	 */
@@ -518,8 +504,6 @@ public class StringUtil {
     
     /**
      * 功能：判断字符串是否为日期格式
-     * 
-     * @param str
      * @return
      */
     public static boolean isDate(String strDate) {
@@ -607,35 +591,6 @@ public class StringUtil {
         Matcher m = p.matcher(value);  
     	return m.matches();
     }
-    
-    /**
-	 * 保留名字的第一个字，其他用**代替
-	 * @param s
-	 * @return
-	 */
-	public static String getDesensitizationNameString(String name){
-		if(StringUtils.isBlank(name)){
-			return "";
-		}
-		
-		StringBuffer sb = new StringBuffer();
-		if(name.length() >= 2){
-			//我国现存的复姓有81个
-			String nameString = "欧阳、太史、端木、上官、司马、东方、独孤、南宫、万俟、闻人、夏侯、诸葛、尉迟、" +
-					"公羊、赫连、澹台、皇甫、宗政、濮阳、公冶、太叔、申屠、公孙、慕容、仲孙、钟离、长孙、宇文、司徒、" +
-					"鲜于、司空、闾丘、子车、亓官、司寇、巫马、公西、颛孙、壤驷、公良、漆雕、乐正、宰父、谷梁、拓跋、夹谷、" +
-					"轩辕、令狐、段干、百里、呼延、东郭、南门、羊舌、微生、公户、公玉、公仪、梁丘、公仲、公上、公门、公山、公坚、左丘、" +
-					"公伯、西门、公祖、第五、公乘、贯丘、公皙、南荣、东里、东宫、仲长、子书、子桑、即墨、达奚、褚师、吴铭";
-			if(nameString.indexOf(name.substring(0,2)) != -1){
-				sb.append("**").append(name.substring(2));
-			}else{
-				sb.append("*").append(name.substring(1));
-			}
-		}else{
-			sb.append(name);
-		}
-		return sb.toString();
-	}
 
 	/**
 	 * 身份证脱敏
@@ -658,7 +613,6 @@ public class StringUtil {
 	
 	/**
 	 * 手机号码脱敏
-	 * @param document_no
 	 * @return
 	 */
 	public static String getDesensitizationMobileString(String mobile){
@@ -677,7 +631,6 @@ public class StringUtil {
 	
 	/**
 	 * 银行卡脱敏
-	 * @param document_no
 	 * @return
 	 */
 	public static String getDesensitizationBankNoString(String bankNo){

@@ -6,10 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 public class DsgameSignatureUtil {
-	public static void main(String[] args) throws Exception {
-		String content = "app_id=2017110109659537&channel_id=1880000000000000&machine_serial=738544762571371&order_channel=1880000000000000&order_client_id=2&order_game_id=999&order_remark=13917797495&order_server_id=1&pay_way_code=101205304&product_app_type=1&product_code=10001&trade_type=APP&user_id=30130";
-		System.out.println(md5CheckContent(content, "8354cd409119b492786f2bf746ede5a7", "DSGAME_LOGIN_PIU1tDQ9hkRgu9AD"));
-	}
     public static boolean md5Check(Map params, String publicKey) throws Exception {
         String sign = (String) params.get("sign");
         if(StringUtil.isEmpty(sign)){

@@ -1,4 +1,4 @@
-package com.neo.paymodel.api.pay.web.vo;
+package com.neo.paymodel.api.pay.entity;
 
 public class BankInfo {
 	private String bankId;

@@ -2,9 +2,9 @@ package com.neo.paymodel.api.pay.channel;
 
 import com.neo.paymodel.api.pay.entity.PayMerchant;
 import com.neo.paymodel.api.pay.entity.PayOrder;
-import com.neo.paymodel.api.pay.web.model.RetModel;
-import com.neo.paymodel.api.pay.web.vo.BankInfo;
-import com.neo.paymodel.api.pay.web.vo.PaySubmitRequest;
+import com.neo.paymodel.api.pay.entity.RetModel;
+import com.neo.paymodel.api.pay.entity.BankInfo;
+import com.neo.paymodel.api.pay.entity.PaySubmitRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

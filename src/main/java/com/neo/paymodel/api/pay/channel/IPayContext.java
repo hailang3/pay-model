@@ -1,11 +1,6 @@
 package com.neo.paymodel.api.pay.channel;
 
 public interface IPayContext {
-
-//	int getPayChannelId();
-//	
-//	String getPayChannelName();
-	
 	int getPayMerchantId();
 	
 	String getPayMerchantCode();
@@ -18,10 +13,10 @@ public interface IPayContext {
 	
 	String getAccount();
 	
-	public String getSignKey();
+	 String getSignKey();
 	
-	public String getWhiteIps();
+	 String getWhiteIps();
 	
-	public Object getConfig(String key);
+	 Object getConfig(String key);
 	
 }

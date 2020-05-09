@@ -12,7 +12,6 @@ public final class DBUtil {
 	/**
 	 * @param o
 	 * @return
-	 * @throws DBTypeException
 	 */
 	public static byte getDBByte(Object o) throws Exception {
 		byte ret = 0;
@@ -29,7 +28,6 @@ public final class DBUtil {
 	/**
 	 * @param o
 	 * @return
-	 * @throws DBTypeException
 	 */
 	public static int getDBInt(Object o) throws Exception {
 		int ret = 0;
@@ -46,7 +44,7 @@ public final class DBUtil {
 	/**
 	 * @param o
 	 * @return
-	 * @throws DBTypeException
+
 	 */
 	public static double getDBDouble(Object o) throws Exception {
 		double ret = 0;
@@ -63,7 +61,7 @@ public final class DBUtil {
 	/**
 	 * @param o
 	 * @return
-	 * @throws DBTypeException
+
 	 */
 	public static BigDecimal getDBBigDecimal(Object o) throws Exception {
 		BigDecimal ret = null;
@@ -80,7 +78,7 @@ public final class DBUtil {
 	/**
 	 * @param o
 	 * @return
-	 * @throws DBTypeException
+
 	 */
 	public static boolean getDBBoolean(Object o) throws Exception {
 		boolean ret = false;
@@ -97,7 +95,7 @@ public final class DBUtil {
 	/**
 	 * @param o
 	 * @return
-	 * @throws DBTypeException
+
 	 */
 	public static long getDBLong(Object o) throws Exception {
 		long ret = 0;
@@ -114,7 +112,7 @@ public final class DBUtil {
 	/**
 	 * @param o
 	 * @return
-	 * @throws DBTypeException
+
 	 */
 	public static String getDBString(Object o) {
 		if (o == null) {
@@ -126,7 +124,7 @@ public final class DBUtil {
 	/**
 	 * @param o
 	 * @return
-	 * @throws DBTypeException
+
 	 */
 	public static Timestamp getDBTimeStamp(Object o) throws Exception {
 		Timestamp ret = null;

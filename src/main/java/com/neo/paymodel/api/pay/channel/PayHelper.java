@@ -6,11 +6,8 @@ import com.neo.paymodel.common.util.RandomChars;
 import java.util.Random;
 
 public class PayHelper {
-
-	
 	public static String genMerchantCode(int payChannelId, int payMerchantId){
 		Random random = new Random();
-		
 		int beforeCid=random.nextInt(6);
 		int afterMid=random.nextInt(6);
 		int betweenCidMid=15-beforeCid-afterMid;

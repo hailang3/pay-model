@@ -195,10 +195,8 @@ public class PayOrderService implements IPayOrderService, InitializingBean {
 			logger.warn("订单[{}]已处理！", orderNo);
 			return;
 		}
-		// 2.加银子，记操作日志
+		// 2.加道具，记操作日志
 		logger.debug("充值订单[{}]处理,玩家[{}]增加金币数量[{}]",orderNo, userId, addCoin);
-		//3. 插入玩家积分充值记录
-		//4. 通知游戏服务端
 
 	}
 

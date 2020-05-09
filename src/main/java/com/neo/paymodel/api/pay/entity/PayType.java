@@ -6,8 +6,6 @@ import java.sql.Timestamp;
 
 /**
  * 支付类型
- * @author m
- *
  */
 public class PayType {
 

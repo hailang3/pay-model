@@ -5,32 +5,32 @@ import com.neo.paymodel.api.pay.entity.*;
 import java.util.List;
 import java.util.Map;
 
-public interface IPayConfService {
+ interface IPayConfService {
 
-	public List<PayType> getPayTypeListSorted();
+	 List<PayType> getPayTypeListSorted();
 	
 	
-	public PayMethod getPayMethod(int payMethodId);
+	 PayMethod getPayMethod(int payMethodId);
 
-	public PayView getPayView(int payViewId);
+	 PayView getPayView(int payViewId);
 	
-	public List<PayView> getPayViewListSorted(int whichOne);
+	 List<PayView> getPayViewListSorted(int whichOne);
 	
-	public PayView getPayView(int payMethodId, int whichOne);
+	 PayView getPayView(int payMethodId, int whichOne);
 	
-	public PayMerchant getPayMerchant(String merchantCode);
+	 PayMerchant getPayMerchant(String merchantCode);
 
-	public PayMerchant getPayMerchant(int payMerchantId);
+	 PayMerchant getPayMerchant(int payMerchantId);
 	
-	public PayChannel getPayChannel(int id);
+	 PayChannel getPayChannel(int id);
 	
-	public PayChannelMethod getPayChannelMethod(int payMethodId, int payChannelId);
+	 PayChannelMethod getPayChannelMethod(int payMethodId, int payChannelId);
 	
-	public PayMerchant getPayMerchant(int payChannelId, int whichOne);
+	 PayMerchant getPayMerchant(int payChannelId, int whichOne);
 	
-	public Map<String, PayMethodInstance> getPayMethodInstanceMap(int payMethodId);
+	 Map<String, PayMethodInstance> getPayMethodInstanceMap(int payMethodId);
 	
-	public List<PayViewBind> getPayViewBindList(int payViewId);
+	 List<PayViewBind> getPayViewBindList(int payViewId);
 
 
 }

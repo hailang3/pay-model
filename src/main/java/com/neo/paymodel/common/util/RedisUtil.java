@@ -70,7 +70,7 @@ public class RedisUtil {
 	 *
 	 * @param key
 	 * @return
-	 * @author Jesson
+
 	 * @date 2018/8/27 10:04
 	 */
 	public boolean expire(String key, long time) {
@@ -91,7 +91,7 @@ public class RedisUtil {
 	 * @param key
 	 *            键，不能为null
 	 * @return 时间（s) 返回0 代表永久有效
-	 * @author Jesson
+
 	 * @date 2018/8/27 10:10
 	 */
 	public long getExpire(String key) {
@@ -103,7 +103,7 @@ public class RedisUtil {
 	 *
 	 * @param key
 	 * @return true 存在 false不存在
-	 * @author Jesson
+
 	 * @date 2018/8/27 10:12
 	 */
 	public boolean hasKey(String key) {
@@ -121,7 +121,7 @@ public class RedisUtil {
 	 * @param key
 	 *            可为多个
 	 * @return
-	 * @author Jesson
+
 	 * @date 2018/8/27 10:13
 	 */
 	@SuppressWarnings("unchecked")
@@ -668,7 +668,7 @@ public class RedisUtil {
 	 *
 	 * @param
 	 * @return
-	 * @author Jesson
+
 	 * @Date 2018/9/7 16:05
 	 */
 	public Set<String> getKeys(String pattern) {

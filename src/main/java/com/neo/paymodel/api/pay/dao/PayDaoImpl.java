@@ -240,8 +240,6 @@ public class PayDaoImpl implements IPayDao {
 	@Override
 	public List<PayViewBind> getPayViewBindList(int payViewId) {
 		String sql="select * from plat_pay_db.config_pay_view_bind where pay_view_id=?";
-		System.out.println("开始");
-		System.out.println(sql);
 		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<PayViewBind>(PayViewBind.class), payViewId);
 	}
 

@@ -315,24 +315,6 @@ public class PayUtil {
         }
         return map;
     }
-
-    public static void main(String[] args) throws Exception {
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("userId", "2141614");
-        map.put("orderNum", "21148308007198241614");
-        map.put("payFee", "100");
-        map.put("productName", "agentPay");
-        map.put("payTime", "2016-12-30 14:42:01");
-        map.put("orderStatus", "TRADE_SUCCESS");
-
-        String sign = getPaySign(map, "WS@XGEIZ_><M.4;UF})D/K`N|0&+=YDJY*!GOA{M-VZ#");
-        System.err.println(sign);
-        map.put("signature", sign);
-        boolean aa = PayUtil.verifySignature(map, "WS@XGEIZ_><M.4;UF})D/K`N|0&+=YDJY*!GOA{M-VZ#");
-        System.err.println(aa);
-    }
-
     public static String readJSONString(HttpServletRequest request) {
         StringBuilder json = new StringBuilder();
         String line = null;

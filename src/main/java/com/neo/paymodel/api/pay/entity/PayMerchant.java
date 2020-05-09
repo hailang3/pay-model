@@ -9,14 +9,11 @@ import java.sql.Timestamp;
 /**
  * 
  * 支付渠道商户配置
- * @author m
- *
  */
 public class PayMerchant  implements Serializable {
 
 	private int id;					// id
 	private String merchantCode;	// 商户代号（唯一标识商户）
-	
 	private String account;			//商户号
 	private String signKey;			//签名key
 	

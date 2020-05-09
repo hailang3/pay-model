@@ -412,30 +412,6 @@ public class RSAUtils {
 		logger.info("公钥format：{}", publicKey.getFormat());
 		logger.info("私钥string：{}", getPrivateKey(keyMap));
 		logger.info("公钥string：{}", getPublicKey(keyMap));
-		// 产生签名
-		/*
-		 * String sign = signByPrivateKey(data, getPrivateKey(keyMap));
-		 * logger.info("签名sign={}", sign); // 验证签名 boolean verify1 =
-		 * verifyByPublicKey(ss.getBytes(), getPublicKey(keyMap), sign);
-		 * logger.info("经验证数据和签名匹配：{} ", verify1); boolean verify =
-		 * verifyByPublicKey(data, getPublicKey(keyMap), sign);
-		 * logger.error("经验证数据和签名匹配：{} ", verify); // logger.info("数字签名为"+sign);
-		 * 
-		 * String s =
-		 * "单红宇测试，e8986ae53e76e7514ebc7e8a42e81e6cea5b6280fb5d3259d5f0a46f9f6e090c";
-		 * String encryStr = encryptByPublicKey(s, getPublicKey(keyMap));
-		 * logger.info("字符串 {} 的公钥加密结果为：{}", s, encryStr); String decryStr =
-		 * decryptByPrivateKey(encryStr, getPrivateKey(keyMap));
-		 * logger.info("私钥解密结果为：{}", decryStr); logger.info(
-		 * "========================================================================================"
-		 * ); String s2 =
-		 * "单红宇测试222，e8986ae53e76e7514ebc7e8a42e81e6cea5b6280fb5d3259d5f0a46f9f6e090c";
-		 * String encryStr2 = encryptByPrivateKey(s, getPrivateKey(keyMap));
-		 * logger.info("字符串 {} 的私钥加密结果为：{}", s2, encryStr2); String decryStr2 =
-		 * decryptByPublicKey(encryStr2, getPublicKey(keyMap));
-		 * logger.info("公钥解密结果为：{}", decryStr2);
-		 */
-
 	}
 
 	public static String signByPrivateKeyForMap(Map<String, String> map, String signKey) throws Exception {

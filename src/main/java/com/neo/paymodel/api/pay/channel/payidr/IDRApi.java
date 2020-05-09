@@ -9,9 +9,9 @@ import com.neo.paymodel.api.pay.entity.PayOrder;
 import com.neo.paymodel.common.util.MD5Util;
 import com.neo.paymodel.common.util.RequestUtil;
 import com.neo.paymodel.common.util.WebUtil;
-import com.neo.paymodel.api.pay.web.model.RetModel;
-import com.neo.paymodel.api.pay.web.vo.BankInfo;
-import com.neo.paymodel.api.pay.web.vo.PaySubmitRequest;
+import com.neo.paymodel.api.pay.entity.RetModel;
+import com.neo.paymodel.api.pay.entity.BankInfo;
+import com.neo.paymodel.api.pay.entity.PaySubmitRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -142,11 +142,7 @@ public class IDRApi extends PayChannelTemplateApi {
 
 	@Override
 	protected boolean checkNotifyReq(HttpServletRequest notifyReq, IPayContext context) {
-		
-//		[{requestParams={"merchant_id":"83070068","transaction_id":"D2118883BCAH8G1OEJJN","order_id":"202002181622538814944886",
-//				"bank_id":"BCA","deposit_method_id":"1","deposit_amount":"100000","merchant_fee_percent":"3.0","net_amount":"97000",
-//				"currency":"IDR","order_status":"Successful","sign_data":"022B34E9FC3F9F502B451E6543916981"}}]
-		Map<String, String> paramMap = RequestUtil.getNotifyParmas(notifyReq);
+	Map<String, String> paramMap = RequestUtil.getNotifyParmas(notifyReq);
 		logger.info("IDRApi notify [{}]", paramMap);
 		String resultMap = paramMap.get("requestParams");
 		logger.info("IDRApi resultMap [{}]", resultMap);
@@ -192,9 +188,6 @@ public class IDRApi extends PayChannelTemplateApi {
 		JSONObject finalResult = JSONObject.parseObject(resultMap);
 		boolean status = true;
 		if(finalResult != null && !finalResult.isEmpty()) {
-			//{"bank_id":"BCA","currency":"IDR","deposit_amount":"100000","deposit_method_id":"1","merchant_fee_percent":"3.0",
-			//"merchant_id":"83070068","net_amount":"97000","order_id":"202002181622538814944886","order_status":"Successful",
-			//"sign_data":"022B34E9FC3F9F502B451E6543916981","transaction_id":"D2118883BCAH8G1OEJJN"}
 			String transaction_id = finalResult.getString("transaction_id");
 			String order_id = finalResult.getString("order_id");
 			Integer net_amount = finalResult.getInteger("net_amount");
@@ -209,11 +202,8 @@ public class IDRApi extends PayChannelTemplateApi {
 			if(status) {
 				responseResult = "{\"received\":\"Yes\"}";
 			}
-			
 			return new SimpleTransactionOrder(status, order_id,  net_amount, transaction_id, new Timestamp(System.currentTimeMillis()), currency, responseResult);
-			
 		}
-		
 		return null;
 	}
 

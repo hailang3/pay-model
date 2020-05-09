@@ -2,20 +2,13 @@ package com.neo.paymodel.api.pay.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.neo.paymodel.api.pay.channel.PayChannelApiManager;
-import com.neo.paymodel.api.pay.entity.PayMethodInstance;
-import com.neo.paymodel.api.pay.entity.PayOrder;
-import com.neo.paymodel.api.pay.entity.PayView;
+import com.neo.paymodel.api.pay.entity.*;
 import com.neo.paymodel.api.pay.service.*;
 import com.neo.paymodel.common.util.PayConstant;
 import com.neo.paymodel.common.util.RequestParamsUtil;
 import com.neo.paymodel.common.util.TypeException;
-import com.neo.paymodel.api.pay.web.model.RetModel;
-import com.neo.paymodel.api.pay.web.vo.*;
 import com.neo.paymodel.common.util.HttpUtil;
-import net.sf.json.JSONArray;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,9 +38,6 @@ public class PayController {
 	public RetModel<List<PayTypeVo>> getPayConfig(HttpServletRequest request, HttpServletResponse response,
 												  PayConfigRequest payConfigReq) {
 		String channelId = payConfigReq.getChannelId().trim();
-		// int payAmountTotal=payConfigReq.getVipGrade();
-		// 验证参数
-
 		// 获取充值界面需要的配置
 		List<PayTypeVo> payTypeVos = payService.getPayTypeVoList();
 		//
@@ -76,7 +66,6 @@ public class PayController {
 		// 验证参数
 		int payViewId = payOrderReq.getViewId();
 		PayView payMethodView = payConfService.getPayView(payViewId);
-		// int payMethodId=payOrderReq.getMethodId();
 		String channelId = payOrderReq.getChannelId();
 		int userId = payOrderReq.getUserId();
 		Long orderAmount = payOrderReq.getOrderAmount(); // 单位：分
@@ -98,46 +87,7 @@ public class PayController {
 		}
 		// 黑名单判断
 		// 充值点击频率判断
-
 		// 充值金额判断
-		boolean isOrderAmountValid = false;
-		
-
-		boolean bolFixed = payMethodView.isBolFixed();
-		/*
-		 * 重写金额验证逻辑
-		 */
-		if(StringUtils.isBlank(payMethodView.getGoodsExpand())) {
-			if(bolFixed){
-				String[] amountArr = payMethodView.getAmounts().split(",");
-				if(Arrays.asList(amountArr).contains(String.valueOf(orderAmount))){
-					isOrderAmountValid=true;
-				}
-			}else{
-				if(!( (payMethodView.getMinAmount()!=null&& payMethodView.getMinAmount() > orderAmount) ||
-					(payMethodView.getMaxAmount()!=null && orderAmount >payMethodView.getMaxAmount()) )){
-                     isOrderAmountValid=true;
-					}
-			}
-		}else {
-			JSONArray jsonArray = JSONArray.fromObject(payMethodView.getGoodsExpand());
-			Set<Long> priceSet = new HashSet<Long>();
-			for(int i=0;i<jsonArray.size();i++){
-				net.sf.json.JSONObject job = jsonArray.getJSONObject(i);  // 遍历 jsonarray 数组，把每一个对象转成 json 对象
-				//System.out.println(job.get("name")+"=") ;  // 得到 每个对象中的属性值
-				priceSet.add(Long.valueOf((String)job.get("idrPrice")));
-				}
-			if(priceSet.contains(orderAmount)) {
-				isOrderAmountValid=true;
-			}
-		}
-
-		  if(!isOrderAmountValid){
-			  //返回错误
-			  return new RetModel<Map<String,Object>>(1,  "订单金额错误");
-		  }
-
-
 		// 获取充值渠道配置
 		PayMethodInstance payInstance = payService.filterPayMethodInstance(orderAmount, payViewId,
 				payMethodView.getPayMethodId(), payMethodView.isBolFixed());
@@ -162,23 +112,17 @@ public class PayController {
 		data.put("submitWay", payInstance.getSubmitWay());
 		data.put("submitUrl", submitUrl);
 		data.put("orderNo", payOrder.getOrderNo());
-//		data.put("bankCode", bankCode);
 		return new RetModel<Map<String, Object>>(data);
 	}
 
 	/**
 	 * 提交订单到充值渠道
-	 *
 	 * @param req
 	 * @param resp
 	 * @throws IOException
 	 */
 	@RequestMapping("/pay")
 	public void payOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//		if(!payService.checkPayRequest(req)){
-//			WebUtil.write(resp, "请求参数错误0");
-//		}
-
 		// 解析参数获得payOrder
 		PaySubmitRequest paySubmitReq = null;
 		try {
@@ -219,11 +163,6 @@ public class PayController {
 	@ResponseBody
 	@RequestMapping("/check")
 	public RetModel<Map<String, Object>> payCheck(HttpServletRequest req, HttpServletResponse resp) {
-
-//		if(!payService.checkPayRequest(req)){
-//			return new RetModel<Void>(0, "请求参数错误0");
-//		}
-
 		PayCheckRequest payCheckReq = null;
 		try {
 			payCheckReq = RequestParamsUtil.formObjectFromRequest(req, PayCheckRequest.class);
@@ -279,7 +218,7 @@ public class PayController {
 		if (orderStatus == PayOrder.PAY_WAITING) {
 			return new RetModel<>(1, "订单尚未支付！");
 		} else if (orderStatus == PayOrder.PAY_FAIL) {
-			return new RetModel<>(2, "玩家支付失败！");
+			return new RetModel<>(2, "支付失败！");
 		} else if (orderStatus == PayOrder.PAY_SUCCESS) {
 			return new RetModel<>(3, "支付成功，在结算！");
 		} else if (orderStatus == PayOrder.ORDER_SETTLED) {

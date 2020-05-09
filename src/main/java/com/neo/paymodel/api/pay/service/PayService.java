@@ -5,8 +5,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.neo.paymodel.api.pay.dao.IPayDao;
 import com.neo.paymodel.api.pay.entity.*;
-import com.neo.paymodel.api.pay.web.vo.PayTypeVo;
-import com.neo.paymodel.api.pay.web.vo.PayViewVo;
+import com.neo.paymodel.api.pay.entity.PayTypeVo;
+import com.neo.paymodel.api.pay.entity.PayViewVo;
 import com.neo.paymodel.common.util.AESUtils;
 import com.neo.paymodel.common.util.HttpUtil;
 import com.neo.paymodel.common.util.MD5Util;
@@ -26,10 +26,10 @@ public class PayService {
 	static final Logger logger = LoggerFactory.getLogger(PayService.class);
 	
 	
-	@Value("${dsgame.pay.sign.key}")
+	@Value("${pay.sign.key}")
 	private String paySignKey;
 	
-	@Value("${dsgame.pay.md5.key}")
+	@Value("${pay.md5.key}")
 	private String md5SignKey;
 	
 	@Autowired
@@ -83,17 +83,6 @@ public class PayService {
 		int totalWeight=0;
 		while(iter.hasNext()){
 			 PayMethodInstance payInstance = iter.next();
-//		  if(bolFixed){ 
-//			  String[] amountArr = payInstance.getAmounts().split(",");
-//		  if(!Arrays.asList(amountArr).contains(String.valueOf(orderAmount))){
-//		  iter.remove(); continue; 
-//		  } }else{
-//			  if( (payInstance.getMinAmount()!=null &&
-//		  payInstance.getMinAmount()> orderAmount) || (payInstance.getMaxAmount()!=null
-//		  && orderAmount > payInstance.getMaxAmount()) ){
-//			  iter.remove(); continue;
-//		  } }
-		  
 		  totalWeight+=payInstance.getWeight();
 		  }
 		 
@@ -222,23 +211,12 @@ public class PayService {
 	private void buildVipPayAgents(PayTypeVo payTypeVo, int whichOne, int payAmountTotal) {
 		String channel_id="";
 		int isagentwj=0;
-		//王者归来只显示旺捷一家代理 1880000000000334   9902011903120001
-		if("1880000000000334".equals(channel_id) || "9902011903120001".equals(channel_id)){
-			isagentwj=1;
-		}
-		//1880000000000387	ios久游斗地主
-		//9902991906120001	久游斗地主安卓1 只显示第4家代理
-		if("1880000000000387".equals(channel_id) || channel_id.indexOf("990299")>=0){
-			isagentwj=4;
-		}
-		
 		List<AgentPayType> agentPayTypeList = payAgentService.getAgentPayTypeList(payAmountTotal, isagentwj);
 		
 		if(agentPayTypeList!=null){
 			for(AgentPayType item : agentPayTypeList){
 				List<Integer> payTypeList=Arrays.asList(0,0,0,0);
-				//1:微信2:qq3:支付宝4:久聊
-				//1支付宝  2微信  3银行卡 4久聊
+				//1支付宝  2微信  3银行卡
 				if(item.getUser_payway_type()==1){	
 					payTypeList.set(1,1);
 				}
@@ -248,11 +226,6 @@ public class PayService {
 				if(item.getUser_payway_type()==3){	
 					payTypeList.set(0, 1);
 				}
-//				item.setRecommended_status(agentpayRecommendStatus);
-				if(item.getUser_payway_type() == 4){
-					payTypeList.set(3, 1);
-					item.setUser_payway_website("http://www.naychat.cn/");
-				}					
 				item.setPayTypeList(payTypeList);
 			}
 			
@@ -285,36 +258,6 @@ public class PayService {
         
         return sign.equalsIgnoreCase(genSign);
 	}
-	
-	
-
-//	public String buildSubmitUrl(String orderNo, HttpServletRequest req) {
-//			
-//		Map<String, Object> parameterMap = HttpUtil.getParameterMap(req, false);
-//		parameterMap.remove("sign");
-//		parameterMap.put("orderNo", orderNo);
-//		
-//		StringBuffer content = new StringBuffer();
-//		List<String> keys = new ArrayList<String>(parameterMap.keySet());
-//        Collections.sort(keys);
-//        for (int i = 0; i < keys.size(); i++) {
-//            String key = (String) keys.get(i);
-//            String value = (String) parameterMap.get(key);
-//            content.append(i==0 ? "" : "&").append(key).append("=").append(value);
-//        }
-//        
-//        String sign = Md5Util.encode(content.toString()+"&key="+paySignKey);
-//		
-//        String paramStr = content.toString()+"&sign="+sign;
-//        
-//        StringBuffer originalURL = req.getRequestURL();
-//        String requstUrl = originalURL.toString().replace("order", "pay");
-//        
-//        return requstUrl+"?"+paramStr;
-//        
-//	}
-	
-	
 	public String buildSubmitUrl(String orderNo, HttpServletRequest req) throws Exception {
 		
 		Map<String, Object> parameterMap = HttpUtil.getParameterMap(req, false);
@@ -331,8 +274,6 @@ public class PayService {
         }
         // 组成参数 加密参数sign urlnormal + "&key=配置的md5key";
         String sign = MD5Util.encode(content.toString()+"&key=" + md5SignKey);
-        
-        // urlnormal + "&sign=md5(md5Key)";
 		 String paramStr = content.toString()+"&sign="+sign;
 		 
 		 //aes(urlnormal)
@@ -363,14 +304,6 @@ public class PayService {
 	public List<Map<String, Object>> getPayBankInfos() {
 		
 		return payDao.getPayBankInfos();
-	}
-
-	
-	public static void main(String[] args) {
-		Map<Integer, Object> result = new HashMap<Integer, Object>();
-		result.put(12, "aaa");
-		int aa = 12;
-		System.out.println(result.get(aa));
 	}
 
 	public List<PayTypeVo> getPayTypeVoList() {

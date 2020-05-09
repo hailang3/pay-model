@@ -521,29 +521,4 @@ public class DateUtil {
 		System.out.println("的 上一个季度的  ：" + sdf.format(cDay.getTime()));
 		return sdf.format(cDay.getTime());
 	}
-
-	public static void main(String[] args) throws ParseException {
-		/*
-		 * String s1 ="2015-01-06 18:15:57"; SimpleDateFormat sdf=new
-		 * SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//小写的mm表示的是分钟 Date
-		 * date=sdf.parse(s1); long mill1 = getMillis(date); long mill2 =
-		 * getMillis(new Date()); long millNum =(mill1 - mill2); long second
-		 * =(mill1 - mill2) /1000; long minus =second /60; long hour =minus /60;
-		 * 
-		 * System.out.println("截止时间毫秒数："+mill1);
-		 * System.out.println("当前时间毫秒数："+mill2);
-		 * System.out.println("剩余毫秒数："+millNum);
-		 * System.out.println("剩余秒数："+second);
-		 * System.out.println("剩余分钟："+minus); System.out.println("剩余小时："+hour);
-		 * //long ss = diffDour11(date, new Date());
-		 * //System.out.println("计算分钟："+ss);
-		 * 
-		 * System.out.println("date="+date); double aa = diffDour11(date, new
-		 * Date()); DecimalFormat df = new DecimalFormat("#.##");
-		 * System.out.println("aa="+df.format(aa));
-		 */
-		// System.out.println(DateUtil.getOneMonthBeforeCurrentTime());
-		System.out.println(getFirstDayUpOfQuarter(new Date()));
-
-	}
 }
